@@ -2,8 +2,8 @@
 IUPS = "https://prod-21.eastus.logic.azure.com:443/workflows/2086d86c2aab4595bee2e6bcf972e6e4/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=s3zPzr4VbGFeN4lYsBLjnZyB34AGDaWhgd_KXPgL4f8";
 RAI = "https://prod-08.eastus.logic.azure.com:443/workflows/efd34f44bc1f4b0f9d17003f7566662d/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=RFkrQpbVu3c-LRs-bwij0HmIz5Bp8lv-piezBkeeUaE";
 
-DIAURI0 = "https://prod-88.eastus.logic.azure.com/workflows/f551cc9bd60540d883455c6e4e79d104/triggers/manual/paths/invoke/rest/v1/videos/";
-DIAURI1 = "?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=KNr7caH5oh8gPS9GFpbMKGZoV6rxjgmVPBKjnG1vkUA";
+DIAURI0 = "https://prod-88.eastus.logic.azure.com/workflows/4babc9231512434bb7663aea441fbfa7/triggers/manual/paths/invoke/";
+DIAURI1 = "?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=NWAEvn-cSaVbu-OzE6n5CuRr1cDrvXWcGHnY41F8nZk";
 
 BLOB_ACCOUNT = "https://blobstoragevideo.blob.core.windows.net";
 
@@ -77,8 +77,9 @@ function getVideos(){
       items.push( "File: " + val["fileName"] + " (Title: "+val["videoTitle"]+")<br />");
       items.push( "Publsihed by: " + val["publisher"] + " (Producer: "+val["producer"]+")<br />");
       items.push( "Age Rating: " + val["ageRating"] + " (Genre: "+val["genre"]+")<br />");
-      items.push('<button type="button" id="subNewForm" class="btn btn-danger" onclick="deleteAsset('+val["fileName"] +')">Delete</button> <br/><br/>');
+      items.push( "Reference ID: " + val["id"] );
       items.push( "<hr />");
+      items.push('<button type="button" id="deleteVideoButton" class="btn btn-danger" onclick="deleteVideo(\'' +val["id"] +'\')">Delete</button> <br/><br/>');
     });
 
     //Clear the assetlist div 
@@ -94,7 +95,7 @@ function getVideos(){
 
 //A function to delete an asset with a specific ID.
 //The id paramater is provided to the function as defined in the relevant onclick handler
-function deleteAsset(id){
+function deleteVideo(id){
     
   $.ajax({ 
 

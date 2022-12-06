@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en" ng-app="Dashboard">
+  <head>
+    <meta charset="UTF-8">
+
+    <title>Creator Portal</title>
+
+      <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+      <script type="text/javascript" src="bootstrap.js"></script>
+      <script type="text/javascript" src="bootstrap.bundle.min.js"></script>
+      <script type="text/javascript" src="jquery-3.6.0.min.js"></script>
+
+      <script type="text/javascript" src="app.js"></script>
+
+      <script>
+        //A function to get a list of all the assets and write them to the Div with the AssetList Div
+        function autogetVideos(){
+  
+          //Replace the current HTML in that div with a loading message
+          $('#VideoList').html('<div class="spinner-border" role="status"><span class="sr-only"> &nbsp;</span>');
+          
+          $.getJSON(RAI, function( data ) {
+          
+            //Create an array to hold all the retrieved assets
+            var items = [];
+            
+            //Iterate through the returned records and build HTML, incorporating the key values of the record in the data
+            $.each( data, function( key, val ) {
+  
+              items.push( "<hr />");
+              items.push("<video width='400' controls><source src='"+BLOB_ACCOUNT + val["filepath"] +"' /></video><br />") 
+              items.push( "File: " + val["fileName"] + " (Title: "+val["videoTitle"]+")<br />");
+              items.push( "Publsihed by: " + val["publisher"] + " (Producer: "+val["producer"]+")<br />");
+              items.push( "Age Rating: " + val["ageRating"] + " (Genre: "+val["genre"]+")<br />");
+              items.push( "Reference ID: " + val["id"] );
+              items.push( "<hr />");
+            });
+  
+            //Clear the assetlist div 
+            $('#VideoList').empty();
+  
+            //Append the contents of the items array to the VideoList Div
+            $( "<ul/>", {
+              "class": "my-new-list", 
+              html: items.join( "" ) 
+            }).appendTo( "#VideoList" );
+          });
+        } 
+      </script>
+
+  </head>
+  
+  <body onload="autogetVideos()">
+
+    <div  class="container">
+
+        <!--Header-->
+        <div class="row align-items-start">
+            <div class="col-2"  ></div>
+
+            <div class="col-8" style="text-align: center;">
+              <h3>Welcome viewer!</h3>
+            </div>
+
+            <div class="col-2"  ></div>
+        </div>
+
+        <!-- view Asset Area-->
+        <div class="row align-items-start">
+            <div class="col-2"  ></div>
+
+              <div id="VideoList">
+
+                <h4>Please click the view Videos button if you wish to view Videos on the system.</h4>
+
+              </div>
+            </div>
+
+            <div class="col-2"  ></div>
+        </div>
+
+    </div>
+
+    
+  
+  </body>
+</html>
